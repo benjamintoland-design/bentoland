@@ -17,6 +17,7 @@
     rep("<div class=\"status ${x.status==='Uploaded ✓'?'ok':x.status?'bad':''}\">","<div class=\"check\" style=\"margin:12px 0\"><input type=\"checkbox\" data-i=\"${i}\" data-f=\"archived\" ${x.archived?'checked':''}><label>Archive</label></div><div class=\"status ${x.status==='Uploaded ✓'?'ok':x.status?'bad':''}\">");
     rep("batch[i][e.target.dataset.f]=e.target.value","batch[i][e.target.dataset.f]=e.target.type==='checkbox'?e.target.checked:e.target.value");
     rep("const d={};$$('[data-f]',$('#modalFields')).forEach(el=>d[el.dataset.f]=el.type==='checkbox'?el.checked:el.value);await patchPhoto(id,d);","const d={};$$('[data-f]',$('#modalFields')).forEach(el=>d[el.dataset.f]=el.type==='checkbox'?el.checked:el.value);d.category=(d.archived?'archive/':'')+d.category;delete d.archived;await patchPhoto(id,d);");
+    rep("await bulkPatch({category:e.target.value});e.target.value=''","const c=e.target.value;for(const id of [...selected]){const p=all.find(x=>x.id===id);await patchPhoto(id,{category:(p?.archived?'archive/':'')+c})}selected.clear();e.target.value='';await load()");
     (0,eval)(code);
     const checks=document.querySelector('#uploadForm .checks');
     if(checks&&!document.querySelector('#archived'))checks.insertAdjacentHTML('beforeend','<div class="check"><input id="archived" type="checkbox"><label>Archive</label></div>');
