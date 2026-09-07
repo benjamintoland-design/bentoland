@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Photography by Ben Toland — wildlife, landscapes, architecture, and an archive of older work." />
+  <meta name="theme-color" content="#f4f1eb" />
+  <title>Ben Toland — Photography</title>
+  <style>
+    :root{--paper:#f4f1eb;--ink:#161616;--muted:#76736d;--line:rgba(22,22,22,.15);--card:#e8e4dc;--max:1520px;--pad:clamp(20px,4vw,64px)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button{font:inherit}img{display:block;width:100%;height:100%;object-fit:cover}
+    .wrap{width:min(var(--max),100%);margin:0 auto;padding-inline:var(--pad)}
+    header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:.25s}header.scrolled{border-bottom-color:var(--line)}
+    nav{height:86px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,2.2vw,31px);letter-spacing:-.035em}.navlinks{display:flex;gap:clamp(18px,3vw,42px);font-size:13px;letter-spacing:.08em;text-transform:uppercase}.navlinks a{position:relative}.navlinks a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:1px;background:var(--ink);transition:.2s}.navlinks a:hover:after{right:0}
+    .hero{min-height:77vh;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);align-items:end;gap:clamp(40px,7vw,120px);padding-block:clamp(72px,11vw,170px) clamp(64px,9vw,130px)}
+    .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}.hero h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(62px,10vw,160px);line-height:.84;letter-spacing:-.065em;margin:0;max-width:1000px}.hero p{font-size:clamp(17px,1.4vw,22px);line-height:1.55;max-width:480px;margin:0 0 8px;color:#373633}.hero .down{display:inline-flex;margin-top:30px;align-items:center;gap:10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase}.arrow{font-size:17px;transform:translateY(-1px)}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;padding:30px 0 28px;border-top:1px solid var(--line)}.section-head h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(38px,5vw,74px);font-weight:400;letter-spacing:-.045em;margin:0}.section-head p{margin:0 0 7px;color:var(--muted);font-size:14px}.filter{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 42px}.filter button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:9px 15px;cursor:pointer;color:var(--ink);transition:.2s}.filter button:hover,.filter button.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(14px,2vw,30px);padding-bottom:clamp(90px,12vw,170px)}.card{grid-column:span 6}.card.wide{grid-column:span 8}.card.tall{grid-column:span 4}.frame{aspect-ratio:4/3;background:var(--card);overflow:hidden;position:relative}.tall .frame{aspect-ratio:4/5}.wide .frame{aspect-ratio:16/10}.placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ded9cf,#ece9e2);color:#8a867f;font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,2vw,30px);font-style:italic}.meta{display:flex;justify-content:space-between;gap:20px;padding-top:12px;font-size:13px}.meta span:last-child{color:var(--muted)}
+    #archive{padding-bottom:clamp(90px,12vw,170px)}.archive-panel{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,7vw,110px);padding:clamp(36px,6vw,86px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.archive-panel h3{font-family:Georgia,"Times New Roman",serif;font-size:clamp(44px,6vw,90px);line-height:.95;font-weight:400;letter-spacing:-.05em;margin:0}.archive-copy{align-self:end;max-width:590px}.archive-copy p{font-size:clamp(17px,1.4vw,21px);line-height:1.6;color:#373633;margin:0 0 26px}.text-link{display:inline-flex;gap:10px;align-items:center;border-bottom:1px solid var(--ink);padding-bottom:5px;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+    #about{padding-bottom:clamp(100px,14vw,190px)}.about-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,10vw,160px);padding-top:clamp(45px,7vw,90px)}.about-label{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}.about-copy{font-family:Georgia,"Times New Roman",serif;font-size:clamp(28px,3.5vw,54px);line-height:1.16;letter-spacing:-.035em;margin:0}.about-small{font-family:inherit;font-size:15px;line-height:1.65;color:var(--muted);max-width:570px;margin-top:38px;letter-spacing:0}
+    footer{border-top:1px solid var(--line);padding:32px 0 42px}.foot{display:flex;justify-content:space-between;gap:30px;font-size:12px;color:var(--muted)}
+    .mobile-menu{display:none}.hide{display:none!important}
+    @media(max-width:760px){nav{height:72px}.navlinks{display:none}.mobile-menu{display:block;border:0;background:none;padding:8px 0;font-size:12px;letter-spacing:.1em;text-transform:uppercase}.hero{min-height:72vh;grid-template-columns:1fr;align-content:end;gap:42px;padding-top:80px}.hero h1{font-size:clamp(66px,23vw,112px)}.grid{grid-template-columns:1fr}.card,.card.wide,.card.tall{grid-column:auto}.frame,.wide .frame{aspect-ratio:4/3}.tall .frame{aspect-ratio:4/5}.archive-panel,.about-grid{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.foot{flex-direction:column}.mobile-links{display:flex;position:fixed;inset:72px 0 auto 0;background:var(--paper);border-bottom:1px solid var(--line);padding:30px var(--pad);flex-direction:column;gap:24px;font-size:18px;z-index:49}.mobile-links[hidden]{display:none}}
+  </style>
+</head>
+<body>
+<header id="topbar">
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top" aria-label="Ben Toland home">Ben Toland</a>
+      <div class="navlinks" aria-label="Primary navigation"><a href="#work">Work</a><a href="#archive">Archive</a><a href="#about">About</a></div>
+      <button class="mobile-menu" id="menuButton" aria-expanded="false">Menu</button>
+    </nav>
+  </div>
+  <div id="mobileLinks" class="mobile-links" hidden><a href="#work">Work</a><a href="#archive">Archive</a><a href="#about">About</a></div>
+</header>
+<main id="top">
+  <section class="wrap hero">
+    <div><div class="kicker">Photography · Northern Utah</div><h1>Ben<br>Toland</h1></div>
+    <div><p>Photographs made while wandering around, looking too closely at birds, buildings, weather, and whatever else seems worth stopping for.</p><a class="down" href="#work">Selected work <span class="arrow">↓</span></a></div>
+  </section>
+
+  <section id="work" class="wrap">
+    <div class="section-head"><h2>Selected work</h2><p>New work lives here.</p></div>
+    <div class="filter" aria-label="Filter photographs"><button class="active" data-filter="all">All</button><button data-filter="wildlife">Wildlife</button><button data-filter="landscape">Landscapes</button><button data-filter="architecture">Architecture</button></div>
+    <div class="grid" id="photoGrid">
+      <article class="card wide" data-category="wildlife"><div class="frame"><div class="placeholder">Wildlife</div></div><div class="meta"><span>Wildlife</span><span>2026</span></div></article>
+      <article class="card tall" data-category="architecture"><div class="frame"><div class="placeholder">Architecture</div></div><div class="meta"><span>Architecture</span><span>Utah</span></div></article>
+      <article class="card tall" data-category="landscape"><div class="frame"><div class="placeholder">Landscape</div></div><div class="meta"><span>Landscape</span><span>West</span></div></article>
+      <article class="card wide" data-category="wildlife"><div class="frame"><div class="placeholder">Birds</div></div><div class="meta"><span>Wildlife</span><span>2026</span></div></article>
+      <article class="card" data-category="architecture"><div class="frame"><div class="placeholder">Places</div></div><div class="meta"><span>Architecture</span><span>Utah</span></div></article>
+      <article class="card" data-category="landscape"><div class="frame"><div class="placeholder">Weather & light</div></div><div class="meta"><span>Landscape</span><span>Utah</span></div></article>
+    </div>
+  </section>
+
+  <section id="archive" class="wrap">
+    <div class="section-head"><h2>Archive</h2><p>Earlier photographs, kept on purpose.</p></div>
+    <div class="archive-panel"><h3>The old<br>JPEG pile.</h3><div class="archive-copy"><p>The archive is where the older, smaller files can live without fighting the newer work for space. Good photographs stay; the rest can quietly disappear into the hard drive abyss.</p><a class="text-link" href="#archive-grid">Browse archive <span>→</span></a></div></div>
+    <div id="archive-grid" class="grid" style="padding-top:clamp(40px,6vw,78px);padding-bottom:0">
+      <article class="card tall"><div class="frame"><div class="placeholder">2011–2013</div></div><div class="meta"><span>Early work</span><span>Archive</span></div></article>
+      <article class="card wide"><div class="frame"><div class="placeholder">2014–2016</div></div><div class="meta"><span>Earlier work</span><span>Archive</span></div></article>
+    </div>
+  </section>
+
+  <section id="about" class="wrap">
+    <div class="section-head"><h2>About</h2><p>No photographer manifesto.</p></div>
+    <div class="about-grid"><div class="about-label">Ben Toland · North Ogden, Utah</div><div><p class="about-copy">I take pictures because I like taking pictures. Birds, landscapes, architecture, family trips, strange light — whatever makes me stop and look twice.</p><p class="about-small">This site is a personal home for the photographs I want to keep around, not a storefront and not a content machine. New work goes up front; older favorites live in the archive.</p></div></div>
+  </section>
+</main>
+<footer><div class="wrap foot"><span>© <span id="year"></span> Ben Toland</span><span>Made for the photographs, not the algorithm.</span></div></footer>
+<script>
+  const header=document.getElementById('topbar');addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>8),{passive:true});
+  document.getElementById('year').textContent=new Date().getFullYear();
+  const filters=[...document.querySelectorAll('.filter button')],cards=[...document.querySelectorAll('#photoGrid .card')];filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;cards.forEach(c=>c.classList.toggle('hide',f!=='all'&&c.dataset.category!==f))}));
+  const menu=document.getElementById('menuButton'),links=document.getElementById('mobileLinks');menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));links.hidden=open;menu.textContent=open?'Menu':'Close'});links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.hidden=true;menu.setAttribute('aria-expanded','false');menu.textContent='Menu'}));
+</script>
+</body>
+</html>
