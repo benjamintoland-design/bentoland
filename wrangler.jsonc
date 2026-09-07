@@ -7,9 +7,6 @@
     "directory": "./public",
     "binding": "ASSETS"
   },
-  "images": {
-    "binding": "IMAGES"
-  },
   "r2_buckets": [
     {
       "binding": "PHOTOS",
