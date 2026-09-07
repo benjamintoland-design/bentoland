@@ -1,12 +1,12 @@
-// Admin v0.8.7 archive + circa + upload reset fix.
+// Admin v0.8.8 archive + circa + EXIF autofill.
 (async()=>{
   try{
-    const r=await fetch('/admin-core.js?v=0.8.7',{cache:'no-store'});
+    const r=await fetch('/admin-core.js?v=0.8.8',{cache:'no-store'});
     if(!r.ok) throw new Error(`Admin core failed to load (${r.status})`);
     let code=await r.text();
     const rep=(a,b)=>{if(!code.includes(a))throw new Error('Admin patch marker missing');code=code.replace(a,b)};
     rep('\n}\nfunction visibleItems','\nfunction visibleItems');
-    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.7';");
+    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.8';");
     rep("cats=['wildlife','architecture','landscape','other','archive'];","cats=['wildlife','architecture','landscape','other'];");
     rep("all=d.photos||[];","all=(d.photos||[]).map(p=>({...p,archived:String(p.category||'').startsWith('archive/'),category:String(p.category||'').replace(/^archive\\//,'')}));");
     rep("${p.featured?'<span class=\"badge\">Featured</span>':''}","${p.featured?'<span class=\"badge\">Featured</span>':''}${p.archived?'<span class=\"badge\">Archive</span>':''}");
@@ -25,7 +25,22 @@
     if(checks&&!document.querySelector('#archived'))checks.insertAdjacentHTML('beforeend','<div class="check"><input id="archived" type="checkbox"><label>Archive</label></div>');
     const uploadDate=document.querySelector('#uploadForm [name="taken_at"]');
     if(uploadDate){uploadDate.type='text';uploadDate.inputMode='numeric';uploadDate.placeholder='YYYY, YYYY-MM, or YYYY-MM-DD';uploadDate.insertAdjacentHTML('afterend','<div class="check" style="margin-top:9px"><input id="circa" type="checkbox"><label>Circa</label></div>')}
-    document.querySelector('#uploadForm')?.addEventListener('submit',()=>{const d=document.querySelector('#uploadForm [name="taken_at"]');if(d&&document.querySelector('#circa')?.checked&&d.value.trim()&&!/^c\.\s*/i.test(d.value))d.value='c. '+d.value.trim()},true);
+    const uploadForm=document.querySelector('#uploadForm');
+    const webInput=uploadForm?.querySelector('[name="web"]');
+    webInput?.addEventListener('change',async()=>{
+      const file=webInput.files?.[0],status=document.querySelector('#uploadStatus');
+      if(!file)return;
+      if(status){status.textContent='Reading EXIF…';status.className='status'}
+      try{
+        const meta=await readExif(file);
+        const names=['camera','lens','focal_length','aperture','shutter_speed','iso','taken_at'];
+        let loaded=0;
+        for(const name of names){const el=uploadForm.elements.namedItem(name),value=meta?.[name];if(el&&value){el.value=value;loaded++}}
+        if(document.querySelector('#circa'))document.querySelector('#circa').checked=false;
+        if(status){status.textContent=loaded?`EXIF loaded · ${loaded} fields`:'No readable EXIF metadata found';status.className=loaded?'status ok':'status'}
+      }catch(err){if(status){status.textContent='Could not read EXIF metadata';status.className='status bad'}}
+    });
+    uploadForm?.addEventListener('submit',()=>{const d=uploadForm.querySelector('[name="taken_at"]');if(d&&document.querySelector('#circa')?.checked&&d.value.trim()&&!/^c\.\s*/i.test(d.value))d.value='c. '+d.value.trim()},true);
     document.addEventListener('click',async e=>{
       const b=e.target.closest('[data-modal-action="save"]');
       if(!b)return;
