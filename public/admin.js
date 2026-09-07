@@ -1,12 +1,12 @@
-// Admin v0.8.6 archive + circa loader.
+// Admin v0.8.7 archive + circa + upload reset fix.
 (async()=>{
   try{
-    const r=await fetch('/admin-core.js?v=0.8.6',{cache:'no-store'});
+    const r=await fetch('/admin-core.js?v=0.8.7',{cache:'no-store'});
     if(!r.ok) throw new Error(`Admin core failed to load (${r.status})`);
     let code=await r.text();
     const rep=(a,b)=>{if(!code.includes(a))throw new Error('Admin patch marker missing');code=code.replace(a,b)};
     rep('\n}\nfunction visibleItems','\nfunction visibleItems');
-    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.6';");
+    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.7';");
     rep("cats=['wildlife','architecture','landscape','other','archive'];","cats=['wildlife','architecture','landscape','other'];");
     rep("all=d.photos||[];","all=(d.photos||[]).map(p=>({...p,archived:String(p.category||'').startsWith('archive/'),category:String(p.category||'').replace(/^archive\\//,'')}));");
     rep("${p.featured?'<span class=\"badge\">Featured</span>':''}","${p.featured?'<span class=\"badge\">Featured</span>':''}${p.archived?'<span class=\"badge\">Archive</span>':''}");
@@ -18,6 +18,8 @@
     rep("<div class=\"status ${x.status==='Uploaded ✓'?'ok':x.status?'bad':''}\">","<div class=\"check\" style=\"margin:12px 0\"><input type=\"checkbox\" data-i=\"${i}\" data-f=\"archived\" ${x.archived?'checked':''}><label>Archive</label></div><div class=\"status ${x.status==='Uploaded ✓'?'ok':x.status?'bad':''}\">");
     rep("batch[i][e.target.dataset.f]=e.target.value","batch[i][e.target.dataset.f]=e.target.type==='checkbox'?e.target.checked:e.target.value");
     rep("await bulkPatch({category:e.target.value});e.target.value=''","const c=e.target.value;for(const id of [...selected]){const p=all.find(x=>x.id===id);await patchPhoto(id,{category:(p?.archived?'archive/':'')+c})}selected.clear();e.target.value='';await load()");
+    rep("$('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const s=$('#uploadStatus'),f=new FormData(e.currentTarget);","$('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,s=$('#uploadStatus'),f=new FormData(form);");
+    rep("e.currentTarget.reset();$('#published').checked=true;await load()","form.reset();$('#published').checked=true;await load()");
     (0,eval)(code);
     const checks=document.querySelector('#uploadForm .checks');
     if(checks&&!document.querySelector('#archived'))checks.insertAdjacentHTML('beforeend','<div class="check"><input id="archived" type="checkbox"><label>Archive</label></div>');
