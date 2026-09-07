@@ -1,293 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f1ea" />
   <title>Ben Toland — Photography</title>
-  <meta name="description" content="Photography by Ben Toland — wildlife, architecture, landscapes, family, and an evolving personal archive.">
+  <meta name="description" content="A personal photography archive by Ben Toland — wildlife, architecture, landscapes, and older work." />
   <style>
-    :root {
-      --bg: #0a0a0a;
-      --panel: #111;
-      --text: #f4f1ea;
-      --muted: #8f8d87;
-      --line: rgba(255,255,255,.14);
-      --pad: clamp(22px, 4vw, 64px);
+    :root{
+      --paper:#f4f1ea;
+      --ink:#141414;
+      --muted:#74716a;
+      --line:#d8d3ca;
+      --pad:clamp(18px,4vw,64px);
+      --serif:Georgia,"Times New Roman",serif;
+      --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+    img{display:block;width:100%;height:100%;object-fit:cover}
+    a{color:inherit;text-decoration:none}
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
+    .masthead{height:96px;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(244,241,234,.94);backdrop-filter:blur(12px);position:sticky;top:0;z-index:50}
+    .brand{display:flex;flex-direction:column;gap:5px}
+    .brand strong{font-family:var(--serif);font-size:clamp(23px,2.4vw,34px);font-weight:400;letter-spacing:.18em;text-transform:uppercase}
+    .brand span{font-size:9px;letter-spacing:.55em;text-transform:uppercase;color:var(--muted);padding-left:3px}
+    nav{display:flex;gap:clamp(16px,2.8vw,36px);align-items:center}
+    nav a{font-size:11px;text-transform:uppercase;letter-spacing:.12em;padding:8px 0;border-bottom:1px solid transparent}
+    nav a:hover{border-bottom-color:var(--ink)}
 
-    .site-header {
-      position: fixed;
-      inset: 0 0 auto 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 22px var(--pad);
-      background: linear-gradient(to bottom, rgba(10,10,10,.92), rgba(10,10,10,0));
-    }
-    .brand {
-      font-size: 15px;
-      font-weight: 650;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-    .nav { display: flex; gap: clamp(16px, 3vw, 34px); }
-    .nav a {
-      color: #d2d0ca;
-      font-size: 13px;
-      transition: opacity .2s ease;
-    }
-    .nav a:hover { opacity: .55; }
+    .hero{position:relative;min-height:min(74vw,760px);height:calc(100svh - 96px);overflow:hidden;background:#242424}
+    .hero img{position:absolute;inset:0}
+    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,10,10,.68) 0%,rgba(7,10,10,.26) 45%,rgba(7,10,10,.04) 75%),linear-gradient(0deg,rgba(0,0,0,.28),transparent 46%)}
+    .hero-copy{position:absolute;z-index:2;left:var(--pad);bottom:clamp(44px,7vw,86px);color:white;max-width:600px}
+    .hero-copy h1{font-family:var(--serif);font-weight:400;font-size:clamp(48px,7.6vw,108px);line-height:.92;letter-spacing:.01em;margin:0 0 22px;text-transform:uppercase}
+    .hero-copy p{margin:0 0 26px;max-width:430px;font-size:11px;line-height:1.8;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+    .hero-link{display:inline-flex;gap:14px;align-items:center;font-size:10px;text-transform:uppercase;letter-spacing:.25em;padding-top:20px;border-top:1px solid rgba(255,255,255,.7)}
+    .hero-caption{position:absolute;z-index:2;right:var(--pad);bottom:34px;color:rgba(255,255,255,.75);font-size:9px;letter-spacing:.22em;text-transform:uppercase}
 
-    .hero {
-      min-height: 100svh;
-      padding: 120px var(--pad) 46px;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      align-items: end;
-      overflow: hidden;
-    }
-    .hero-copy {
-      max-width: 1200px;
-      align-self: center;
-    }
-    h1 {
-      margin: 0;
-      max-width: 12ch;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(64px, 12.7vw, 190px);
-      font-weight: 400;
-      line-height: .82;
-      letter-spacing: -.065em;
-    }
-    .hero-kicker {
-      margin: 28px 0 0;
-      max-width: 560px;
-      color: var(--muted);
-      font-size: clamp(15px, 1.7vw, 19px);
-      line-height: 1.55;
-    }
-    .hero-foot {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
+    .section{padding:clamp(58px,7vw,96px) var(--pad)}
+    .rule{border-top:1px solid var(--line)}
+    .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:30px}
+    .section-head h2{font-family:var(--serif);font-size:clamp(28px,3.2vw,46px);font-weight:400;letter-spacing:.11em;text-transform:uppercase;margin:0}
+    .section-head span,.eyebrow{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
 
-    .section {
-      padding: 110px var(--pad);
-      border-top: 1px solid var(--line);
-    }
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 42px;
-    }
-    .eyebrow {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-    h2 {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(38px, 6vw, 82px);
-      font-weight: 400;
-      line-height: .95;
-      letter-spacing: -.045em;
-    }
+    .category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,28px)}
+    .category-card{display:block}
+    .category-image{aspect-ratio:4/5;overflow:hidden;background:#ddd}
+    .category-image img{transition:transform .55s ease,filter .55s ease}
+    .category-card:hover img{transform:scale(1.025);filter:contrast(1.03)}
+    .category-meta{padding-top:17px}
+    .category-meta h3{font-family:var(--serif);font-size:clamp(18px,2vw,26px);font-weight:400;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px}
+    .category-meta p{margin:0;color:var(--muted);font-size:8px;letter-spacing:.28em;text-transform:uppercase;line-height:1.6}
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: clamp(12px, 1.8vw, 26px);
-    }
-    .shot {
-      position: relative;
-      overflow: hidden;
-      min-height: 310px;
-      background:
-        radial-gradient(circle at 70% 30%, rgba(255,255,255,.08), transparent 28%),
-        linear-gradient(145deg, #232323, #0f0f0f 55%, #1b1b1b);
-      border: 1px solid rgba(255,255,255,.06);
-    }
-    .shot::after {
-      content: attr(data-label);
-      position: absolute;
-      left: 16px;
-      bottom: 14px;
-      color: rgba(255,255,255,.52);
-      font-size: 11px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-    .shot:nth-child(1) { grid-column: span 7; aspect-ratio: 3 / 2; }
-    .shot:nth-child(2) { grid-column: span 5; aspect-ratio: 4 / 5; }
-    .shot:nth-child(3) { grid-column: span 4; aspect-ratio: 4 / 5; }
-    .shot:nth-child(4) { grid-column: span 8; aspect-ratio: 16 / 10; }
+    .recent-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(9px,1.2vw,16px)}
+    .recent-shot{aspect-ratio:1/1.06;overflow:hidden;background:#ddd}
+    .recent-shot img{transition:transform .45s ease}
+    .recent-shot:hover img{transform:scale(1.03)}
 
-    .categories { display: grid; }
-    .category {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      align-items: baseline;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--line);
-      transition: opacity .2s ease, padding-left .2s ease;
-    }
-    .category:first-child { border-top: 1px solid var(--line); }
-    .category:hover { opacity: .62; padding-left: 10px; }
-    .category strong {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(32px, 5vw, 72px);
-      font-weight: 400;
-      letter-spacing: -.035em;
-    }
-    .category span {
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
+    .archive-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,8vw,110px);align-items:start}
+    .archive-copy h2{font-family:var(--serif);font-size:clamp(44px,7vw,92px);font-weight:400;line-height:.92;letter-spacing:-.035em;margin:8px 0 28px}
+    .archive-copy p{max-width:560px;font-size:14px;line-height:1.8;color:#5e5a54;margin:0}
+    .archive-links{border-top:1px solid var(--line)}
+    .archive-links a{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-size:clamp(23px,3vw,38px)}
+    .archive-links span{font-family:var(--sans);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.3fr .7fr;
-      gap: clamp(36px, 8vw, 120px);
-    }
-    .about-copy {
-      margin: 0;
-      max-width: 800px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(28px, 4.5vw, 58px);
-      line-height: 1.08;
-      letter-spacing: -.035em;
-    }
-    .about-side {
-      align-self: end;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-    }
+    .about{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,9vw,140px);align-items:start}
+    .about h2{font-family:var(--serif);font-weight:400;font-size:clamp(42px,7vw,86px);line-height:.95;margin:0}
+    .about p{margin:0;font-size:clamp(19px,2.4vw,30px);line-height:1.45;font-family:var(--serif);color:#34312d}
+    .about small{display:block;margin-top:28px;font-family:var(--sans);font-size:10px;line-height:1.8;letter-spacing:.08em;color:var(--muted);max-width:500px}
 
-    footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 34px var(--pad) 48px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 12px;
-    }
+    footer{padding:28px var(--pad) 38px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
 
-    @media (max-width: 760px) {
-      .site-header { align-items: flex-start; }
-      .nav { gap: 14px; }
-      .nav a:nth-child(2), .nav a:nth-child(3) { display: none; }
-      .hero { padding-top: 100px; }
-      .hero-foot { flex-direction: column; }
-      .section { padding-top: 80px; padding-bottom: 80px; }
-      .section-head { align-items: flex-end; }
-      .shot:nth-child(n) { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
-      .shot:nth-child(2), .shot:nth-child(3) { aspect-ratio: 4 / 5; }
-      .about-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; }
+    @media(max-width:900px){
+      .masthead{height:82px}.brand strong{font-size:22px}nav a:nth-child(2),nav a:nth-child(3){display:none}
+      .hero{height:72svh;min-height:520px}.category-grid{grid-template-columns:repeat(2,1fr)}.recent-grid{grid-template-columns:repeat(3,1fr)}.recent-shot:nth-child(n+4){display:none}.archive-wrap,.about{grid-template-columns:1fr}.about{gap:28px}
+    }
+    @media(max-width:560px){
+      .masthead{padding-left:18px;padding-right:18px}.brand strong{font-size:18px;letter-spacing:.14em}.brand span{font-size:7px}.hero-copy h1{font-size:46px}.hero-copy p{font-size:9px;letter-spacing:.19em}.hero-caption{display:none}.category-grid{grid-template-columns:1fr 1fr}.category-meta h3{font-size:16px}.recent-grid{grid-template-columns:1fr 1fr}.recent-shot:nth-child(3){display:none}.section{padding-left:18px;padding-right:18px}footer{flex-direction:column;padding-left:18px;padding-right:18px}
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="Ben Toland home">Ben Toland</a>
-    <nav class="nav" aria-label="Primary navigation">
-      <a href="#photography">Photography</a>
+  <header class="masthead">
+    <a class="brand" href="#top" aria-label="Ben Toland home">
+      <strong>Ben Toland</strong>
+      <span>Photography</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#top">Home</a>
+      <a href="#galleries">Galleries</a>
       <a href="#archive">Archive</a>
-      <a href="#blog">Blog</a>
       <a href="#about">About</a>
     </nav>
   </header>
 
   <main id="top">
-    <section class="hero">
+    <section class="hero" aria-label="Featured photograph">
+      <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2400&q=88" alt="Mountain landscape reflected in water" />
       <div class="hero-copy">
-        <h1>Ben Toland</h1>
-        <p class="hero-kicker">A personal collection of photographs — wildlife, architecture, landscapes, family, and whatever is worth stopping for.</p>
+        <h1>A Closer<br />Look</h1>
+        <p>Photographs from around the places I call home — and wherever else seems worth stopping.</p>
+        <a class="hero-link" href="#galleries">Explore galleries <span>→</span></a>
       </div>
-      <div class="hero-foot">
-        <span>Utah</span>
-        <a href="#photography">View photography ↓</a>
-      </div>
+      <div class="hero-caption">Featured photograph</div>
     </section>
 
-    <section class="section" id="photography">
+    <section class="section" id="galleries">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">Selected work</p>
-          <h2>Photography</h2>
-        </div>
-        <p class="eyebrow">2026 — ongoing</p>
+        <h2>Galleries</h2>
+        <span>Selected subjects</span>
       </div>
-      <div class="gallery" aria-label="Selected photography placeholders">
-        <div class="shot" data-label="Featured image"></div>
-        <div class="shot" data-label="Wildlife"></div>
-        <div class="shot" data-label="Architecture"></div>
-        <div class="shot" data-label="Landscape"></div>
+      <div class="category-grid">
+        <a class="category-card" href="#archive">
+          <div class="category-image"><img loading="lazy" src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1000&q=84" alt="Wildlife" /></div>
+          <div class="category-meta"><h3>Wildlife</h3><p>Birds / animals / nature</p></div>
+        </a>
+        <a class="category-card" href="#archive">
+          <div class="category-image"><img loading="lazy" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1000&q=84" alt="Architecture" /></div>
+          <div class="category-meta"><h3>Architecture</h3><p>Buildings / cities / details</p></div>
+        </a>
+        <a class="category-card" href="#archive">
+          <div class="category-image"><img loading="lazy" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=84" alt="Landscape" /></div>
+          <div class="category-meta"><h3>Landscape</h3><p>Mountains / water / sky</p></div>
+        </a>
+        <a class="category-card" href="#archive">
+          <div class="category-image"><img loading="lazy" src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1000&q=84" alt="Close-up nature detail" /></div>
+          <div class="category-meta"><h3>Other</h3><p>Macro / everyday / more</p></div>
+        </a>
       </div>
     </section>
 
-    <section class="section" id="archive">
+    <section class="section rule">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">Browse by subject</p>
-          <h2>The archive</h2>
-        </div>
+        <h2>Recent Work</h2>
+        <span>2026 — ongoing</span>
       </div>
-      <div class="categories">
-        <a class="category" href="#photography"><strong>Wildlife</strong><span>View gallery →</span></a>
-        <a class="category" href="#photography"><strong>Architecture</strong><span>View gallery →</span></a>
-        <a class="category" href="#photography"><strong>Landscape</strong><span>View gallery →</span></a>
-        <a class="category" href="#photography"><strong>Family</strong><span>View gallery →</span></a>
-        <a class="category" href="#photography"><strong>Older work</strong><span>Archive →</span></a>
+      <div class="recent-grid">
+        <div class="recent-shot"><img loading="lazy" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=82" alt="Forest landscape" /></div>
+        <div class="recent-shot"><img loading="lazy" src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=800&q=82" alt="Wildlife photograph" /></div>
+        <div class="recent-shot"><img loading="lazy" src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=82" alt="Mountain landscape" /></div>
+        <div class="recent-shot"><img loading="lazy" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=800&q=82" alt="Architecture photograph" /></div>
+        <div class="recent-shot"><img loading="lazy" src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=800&q=82" alt="Nature detail" /></div>
       </div>
     </section>
 
-    <section class="section" id="blog">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Field notes</p>
-          <h2>Blog</h2>
+    <section class="section rule" id="archive">
+      <div class="archive-wrap">
+        <div class="archive-copy">
+          <span class="eyebrow">The archive</span>
+          <h2>Old work deserves a home too.</h2>
+          <p>A growing collection of photographs from different cameras, different years, and different versions of me. The strongest older JPEGs live here instead of disappearing onto an old drive.</p>
         </div>
-        <p class="eyebrow">Private option coming next</p>
+        <div class="archive-links">
+          <a href="#galleries">Wildlife <span>View →</span></a>
+          <a href="#galleries">Architecture <span>View →</span></a>
+          <a href="#galleries">Landscape <span>View →</span></a>
+          <a href="#galleries">Older work <span>Archive →</span></a>
+        </div>
       </div>
-      <p class="about-copy">Photographs are the point. The blog is just a place to remember where I went, what I saw, and why I bothered carrying the camera.</p>
     </section>
 
-    <section class="section" id="about">
-      <div class="about-grid">
+    <section class="section rule" id="about">
+      <div class="about">
+        <h2>Ben<br />Toland</h2>
         <div>
-          <p class="eyebrow">About</p>
-          <p class="about-copy">I make photographs because I like making photographs. This site is a home for the good ones, the old ones, and the stories I want to keep.</p>
+          <p>I make photographs because I like making photographs. This is a personal home for the ones worth keeping — wildlife, architecture, landscapes, details, and whatever catches my attention along the way.</p>
+          <small>Based in Utah. No client funnel, no booking pitch, no algorithm to feed. Just photographs and, eventually, a private journal for the stories behind them.</small>
         </div>
-        <p class="about-side">No client funnel. No inspirational quotes. No algorithm to feed. Just a growing personal archive.</p>
       </div>
     </section>
   </main>
@@ -297,6 +178,6 @@
     <span>Personal photography archive</span>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
 </body>
 </html>
