@@ -1,12 +1,12 @@
-// Admin v0.8.8 archive + circa + EXIF autofill.
+// Admin v0.8.9 archive + circa + EXIF autofill + journal navigation.
 (async()=>{
   try{
-    const r=await fetch('/admin-core.js?v=0.8.8',{cache:'no-store'});
+    const r=await fetch('/admin-core.js?v=0.8.9',{cache:'no-store'});
     if(!r.ok) throw new Error(`Admin core failed to load (${r.status})`);
     let code=await r.text();
     const rep=(a,b)=>{if(!code.includes(a))throw new Error('Admin patch marker missing');code=code.replace(a,b)};
     rep('\n}\nfunction visibleItems','\nfunction visibleItems');
-    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.8';");
+    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.9';");
     rep("cats=['wildlife','architecture','landscape','other','archive'];","cats=['wildlife','architecture','landscape','other'];");
     rep("all=d.photos||[];","all=(d.photos||[]).map(p=>({...p,archived:String(p.category||'').startsWith('archive/'),category:String(p.category||'').replace(/^archive\\//,'')}));");
     rep("${p.featured?'<span class=\"badge\">Featured</span>':''}","${p.featured?'<span class=\"badge\">Featured</span>':''}${p.archived?'<span class=\"badge\">Archive</span>':''}");
@@ -21,6 +21,8 @@
     rep("$('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const s=$('#uploadStatus'),f=new FormData(e.currentTarget);","$('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,s=$('#uploadStatus'),f=new FormData(form);");
     rep("e.currentTarget.reset();$('#published').checked=true;await load()","form.reset();$('#published').checked=true;await load()");
     (0,eval)(code);
+    const logout=document.querySelector('.logout');
+    if(logout&&!document.querySelector('#journalAdminLink')){const a=document.createElement('a');a.id='journalAdminLink';a.href='/admin/journal';a.textContent='Journal admin';a.className='logout';a.style.marginLeft='18px';logout.insertAdjacentElement('beforebegin',a)}
     const checks=document.querySelector('#uploadForm .checks');
     if(checks&&!document.querySelector('#archived'))checks.insertAdjacentHTML('beforeend','<div class="check"><input id="archived" type="checkbox"><label>Archive</label></div>');
     const uploadDate=document.querySelector('#uploadForm [name="taken_at"]');
