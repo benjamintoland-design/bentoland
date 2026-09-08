@@ -1,12 +1,12 @@
-// Admin v0.8.9 archive + circa + EXIF autofill + journal navigation.
+// Admin v0.9.0 archive + circa + EXIF autofill + unified navigation.
 (async()=>{
   try{
-    const r=await fetch('/admin-core.js?v=0.8.9',{cache:'no-store'});
+    const r=await fetch('/admin-core.js?v=0.9.0',{cache:'no-store'});
     if(!r.ok) throw new Error(`Admin core failed to load (${r.status})`);
     let code=await r.text();
     const rep=(a,b)=>{if(!code.includes(a))throw new Error('Admin patch marker missing');code=code.replace(a,b)};
     rep('\n}\nfunction visibleItems','\nfunction visibleItems');
-    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.8.9';");
+    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.9.0';");
     rep("cats=['wildlife','architecture','landscape','other','archive'];","cats=['wildlife','architecture','landscape','other'];");
     rep("all=d.photos||[];","all=(d.photos||[]).map(p=>({...p,archived:String(p.category||'').startsWith('archive/'),category:String(p.category||'').replace(/^archive\\//,'')}));");
     rep("${p.featured?'<span class=\"badge\">Featured</span>':''}","${p.featured?'<span class=\"badge\">Featured</span>':''}${p.archived?'<span class=\"badge\">Archive</span>':''}");
@@ -21,8 +21,16 @@
     rep("$('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const s=$('#uploadStatus'),f=new FormData(e.currentTarget);","$('#uploadForm').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,s=$('#uploadStatus'),f=new FormData(form);");
     rep("e.currentTarget.reset();$('#published').checked=true;await load()","form.reset();$('#published').checked=true;await load()");
     (0,eval)(code);
-    const logout=document.querySelector('.logout');
-    if(logout&&!document.querySelector('#journalAdminLink')){const a=document.createElement('a');a.id='journalAdminLink';a.href='/admin/journal';a.textContent='Journal admin';a.className='logout';a.style.marginLeft='18px';logout.insertAdjacentElement('beforebegin',a)}
+    const h=document.querySelector('h1'),intro=h?.nextElementSibling,version=document.querySelector('#adminVersion'),logout=document.querySelector('.logout');
+    if(h)h.textContent='Bentoland';
+    if(intro&&intro.tagName==='P')intro.textContent='Private publishing console.';
+    if(logout){
+      const nav=document.createElement('nav');nav.id='adminNav';nav.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 10px';
+      const item=(label,href,active=false)=>{const a=document.createElement('a');a.textContent=label;a.href=href;a.style.cssText=`display:inline-block;padding:9px 12px;border:1px solid #d8d3ca;text-decoration:none;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:${active?'#fff':'#151515'};background:${active?'#151515':'#fff'}`;return a};
+      nav.append(item('Photos','/admin',true),item('Journal','/admin/journal'),item('View site','/'),item('Lock','/admin/logout'));
+      logout.replaceWith(nav);
+    }
+    if(version){version.style.marginBottom='4px'}
     const checks=document.querySelector('#uploadForm .checks');
     if(checks&&!document.querySelector('#archived'))checks.insertAdjacentHTML('beforeend','<div class="check"><input id="archived" type="checkbox"><label>Archive</label></div>');
     const uploadDate=document.querySelector('#uploadForm [name="taken_at"]');
