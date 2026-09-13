@@ -1,4 +1,4 @@
-// Admin v0.9.2 archive + circa + corrected EXIF autofill + unified navigation.
+// Admin v0.9.3 archive + circa + fixed EXIF autofill + unified navigation.
 (async()=>{
   try{
     const r=await fetch('/admin-core.js?v=0.9.0',{cache:'no-store'});
@@ -6,9 +6,8 @@
     let code=await r.text();
     const rep=(a,b)=>{if(!code.includes(a))throw new Error('Admin patch marker missing');code=code.replace(a,b)};
     rep('\n}\nfunction visibleItems','\nfunction visibleItems');
-    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.9.2';");
+    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.9.3';");
     rep("cats=['wildlife','architecture','landscape','other','archive'];","cats=['animals','architecture','landscape','other'];");
-    rep("else if(type===5)out[tag]=rat(ptr)","else if(type===5){const rp=base+u32(e+8);out[tag]=rat(rp)}");
     rep("all=d.photos||[];","all=(d.photos||[]).map(p=>({...p,archived:String(p.category||'').startsWith('archive/'),category:String(p.category||'').replace(/^archive\\//,'').replace(/^wildlife$/,'animals')}));");
     rep("${p.featured?'<span class=\"badge\">Featured</span>':''}","${p.featured?'<span class=\"badge\">Featured</span>':''}${p.archived?'<span class=\"badge\">Archive</span>':''}");
     rep("<div class=\"check\"><input data-f=\"featured\" type=\"checkbox\" ${p.featured?'checked':''}><label>Featured</label></div></div>","<div class=\"check\"><input data-f=\"featured\" type=\"checkbox\" ${p.featured?'checked':''}><label>Featured</label></div><div class=\"check\"><input data-f=\"archived\" type=\"checkbox\" ${p.archived?'checked':''}><label>Archive</label></div></div>");
