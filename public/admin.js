@@ -1,12 +1,12 @@
-// Admin v0.9.6 archive + circa + Canon/legacy EXIF fallback + unified navigation.
+// Admin v0.9.7 archive + circa + Canon/legacy EXIF fallback + unified navigation.
 (async()=>{
   try{
-    const r=await fetch('/admin-core.js?v=0.9.0',{cache:'no-store'});
+    const r=await fetch('/admin-core.js?v=0.9.7',{cache:'no-store'});
     if(!r.ok) throw new Error(`Admin core failed to load (${r.status})`);
     let code=await r.text();
     const rep=(a,b)=>{if(!code.includes(a))throw new Error('Admin patch marker missing');code=code.replace(a,b)};
     rep('\n}\nfunction visibleItems','\nfunction visibleItems');
-    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.9.6';");
+    rep("const ADMIN_VERSION='0.8.2';","const ADMIN_VERSION='0.9.7';");
     rep("cats=['wildlife','architecture','landscape','other','archive'];","cats=['animals','architecture','landscape','other'];");
     rep("ptr=count*(type===2?1:type===3?2:4)<=4?e+8:base+u32(e+8);","ptr=count*(type===2?1:type===3?2:type===5?8:4)<=4?e+8:base+u32(e+8);");
     rep("all=d.photos||[];","all=(d.photos||[]).map(p=>({...p,archived:String(p.category||'').startsWith('archive/'),category:String(p.category||'').replace(/^archive\\//,'').replace(/^wildlife$/,'animals')}));");
